@@ -1,4 +1,4 @@
-package by.equeue.webserverapp.web;
+package by.equeue.webserverapp.rest;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,5 +1,6 @@
-package by.equeue.webserverapp.model.queues;
+package by.equeue.webserverapp.repository;
 
+import by.equeue.webserverapp.model.queues.Queue;
 import by.equeue.webserverapp.model.users.User;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -9,14 +10,16 @@ import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Set;
 
 @Repository
-public interface QueueDao extends CrudRepository<Queue, Long> {
-//    //@Query(value) TODO
-//    Set<Queue> getUserQueues(@Param("userID") Long userID);
+public interface QueueRepository extends CrudRepository<Queue, Long> {
+
     @Modifying
-    @Query(value ="INSERT INTO USER_QUEUE ", nativeQuery = true)
+    @Query(value = "INSERT INTO USER_QUEUE ", nativeQuery = true)
     @Transactional
     void addUserToQueue(@Param("user") User user);
+
+    @Query("SELECT q FROM Queue q JOIN UserQueuePosition pos WHERE pos.user.id = :userId")
+    List<Queue> getQueuesOfUser(@Param("userId") Long userId);
+
 }

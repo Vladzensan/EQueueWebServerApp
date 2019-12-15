@@ -6,7 +6,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
-import java.util.Set;
+import java.util.LinkedList;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -16,10 +17,22 @@ public class User implements Serializable {
     private Long id;
 
     @Column(name = "surname", length = 64, nullable = false)
-    private String surname;
+    private String lastName;
 
     @Column(name = "name", length = 64, nullable = false)
-    private String name;
+    private String firstName;
+
+    @Column(name = "login")
+    private String username;
+
+    @Column(name = "password")
+    private String password;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_roles",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "role_id")})
+    private List<Role> roles = new LinkedList<>();
 
     @JsonIgnore
     @ManyToMany
@@ -27,34 +40,34 @@ public class User implements Serializable {
             name = "users_groups",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "group_id"))
-    private Set<Group> groups = new HashSet<>();
+    private List<Group> groups = new LinkedList<>();
 
     @JsonIgnore
     @OneToMany(mappedBy = "user")
-    Set<UserQueuePosition> positions = new HashSet<>();
+    List<UserQueuePosition> positions = new LinkedList<>();
 
-    public Set<Group> getGroups() {
+    public List<Group> getGroups() {
         return groups;
     }
 
-    public void setGroups(Set<Group> groups) {
+    public void setGroups(List<Group> groups) {
         this.groups = groups;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String name) {
+        this.firstName = name;
     }
 
-    public String getSurname() {
-        return surname;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
+    public void setLastName(String surname) {
+        this.lastName = surname;
     }
 
     public Long getId() {
@@ -65,11 +78,35 @@ public class User implements Serializable {
         this.id = id;
     }
 
-    public Set<UserQueuePosition> getPositions() {
+    public List<UserQueuePosition> getPositions() {
         return positions;
     }
 
-    public void setPositions(Set<UserQueuePosition> positions) {
+    public void setPositions(List<UserQueuePosition> positions) {
         this.positions = positions;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String login) {
+        this.username = login;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 }

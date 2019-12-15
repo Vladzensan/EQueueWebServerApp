@@ -5,7 +5,8 @@ import by.equeue.webserverapp.model.users.User;
 
 import javax.persistence.*;
 import java.util.HashSet;
-import java.util.Set;
+import java.util.LinkedList;
+import java.util.List;
 
 @Entity
 @Table(name = "groups")
@@ -18,10 +19,10 @@ public class Group {
     private String title;
 
     @ManyToMany(mappedBy = "groups")
-    private Set<User> users = new HashSet<>();
+    private List<User> users = new LinkedList<>();
 
     @OneToMany(targetEntity = by.equeue.webserverapp.model.queues.Queue.class, mappedBy = "group")
-    private Set<Queue> queues = new HashSet<>();
+    private List<Queue> queues = new LinkedList<>();
 
     public Group() {
     }
@@ -30,7 +31,7 @@ public class Group {
         this.title = title;
     }
 
-    public Set<Queue> getQueues() {
+    public List<Queue> getQueues() {
         return queues;
     }
 
@@ -50,15 +51,15 @@ public class Group {
         this.id = id;
     }
 
-    public Set<User> getUsers() {
+    public List<User> getUsers() {
         return users;
     }
 
-    public void setUsers(Set<User> users) {
+    public void setUsers(List<User> users) {
         this.users = users;
     }
 
-    public void setQueues(Set<Queue> queues) {
+    public void setQueues(List<Queue> queues) {
         this.queues = queues;
     }
 }

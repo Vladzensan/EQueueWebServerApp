@@ -5,8 +5,8 @@ import by.equeue.webserverapp.model.users.UserQueuePosition;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.LinkedList;
+import java.util.List;
 
 @Entity
 @Table(name = "queues")
@@ -28,7 +28,7 @@ public class Queue {
 
     @JsonIgnore
     @OneToMany(mappedBy = "queue")
-    Set<UserQueuePosition> positions = new HashSet<>();
+    List<UserQueuePosition> positions = new LinkedList<>();
 
 
     public Long getId() {
@@ -39,11 +39,11 @@ public class Queue {
         this.id = id;
     }
 
-    public Set<UserQueuePosition> getPositions() {
+    public List<UserQueuePosition> getPositions() {
         return positions;
     }
 
-    public void setPositions(Set<UserQueuePosition> positions) {
+    public void setPositions(List<UserQueuePosition> positions) {
         this.positions = positions;
     }
 
